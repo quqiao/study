@@ -1,0 +1,326 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+listfavos/v3_3_7
+    #模块：买房吗APP    接口：【V3.3.7】我的收藏
+    #import library    C:/Anaconda2/Scripts/rf-base64.py
+    log    base64加密
+    ${datacontent}    encode    {"account":"18628020167", "password":"123456","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.platforms.maifangma.com/houses/listfavos/v3_3_7
+    log    base64加密
+    ${datacontent}    encode    {"ticketId":"${tt}"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getpolicy
+    #模块：买房吗APP    接口：[V3.3.6]获取楼盘的优惠政策
+    ${datacontent}    encode    {"houseId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/getpolicy    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/getpolicy    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getcriteria/v3_3
+    #模块：买房吗APP    接口：[V3.3]获取筛选条件
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/getcriteria/v3_3    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/getcriteria/v3_3    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listhot
+    #模块：买房吗APP    接口：[3.2.0]热门楼盘列表
+    #${datacontent}    encode    {"houseId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/listhot    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/listhot    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getotherinfo
+    #模块：买房吗APP    接口：户型（优惠和服务之星等
+    ${datacontent}    encode    {"houseId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://platforms.maifangma.com/houses/getotherinfo    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://platforms.maifangma.com/houses/getotherinfo    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getdoorinfo
+    #模块：买房吗APP    接口：户型详情
+    ${datacontent}    encode    {"id":"758543140633182208"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/getdoorinfo    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/getdoorinfo    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listdoor
+    #模块：买房吗APP    接口：户型列表
+    ${datacontent}    encode    {"houseId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/listdoor    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/listdoor    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+gethousestype
+    #模块：买房吗APP    接口：户型条件
+    ${datacontent}    encode    {"houseId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/gethousestype    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/gethousestype    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getshowstatus
+    #模块：买房吗APP    接口：【2.3.0】根据楼盘ID获取楼盘是否上架的状态
+    ${datacontent}    encode    {"houseId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/getshowstatus    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/getshowstatus    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getfav
+    #模块：买房吗APP    接口：判断用户是否收藏了改楼盘
+    #import library    C:/Anaconda2/Scripts/rf-base64.py
+    log    base64加密
+    ${datacontent}    encode    {"account":"17713543052", "password":"123456","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.platforms.maifangma.com/houses/getfav
+    log    base64加密
+    ${datacontent}    encode    {"houseId":"756379910410338304","ticketId":"${tt}"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getcriteria
+    #模块：买房吗APP    接口：获取筛选条件
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/getcriteria    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/getcriteria    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    #${gbkcn}    Evaluate    '${dedata}'.decode('gbk')
+    #log    ${gbkcn}
+
+listestimates/v2_1
+    #模块：买房吗APP    接口：最新评价
+    ${datacontent}    encode    {"houseId":"756379910410338304","curPage":"1","pageSize":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/listestimates/v2_1    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/listestimates/v2_1    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listkeepers
+    #模块：买房吗APP    接口：楼盘房管家
+    ${datacontent}    encode    {"houseId":"821544671346950144"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/listkeepers    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/listkeepers    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listnearby
+    #模块：买房吗APP    接口：周边楼盘
+    ${datacontent}    encode    {"houseId":"821544671346950144"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/listnearby    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/listnearby    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

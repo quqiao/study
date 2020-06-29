@@ -1,0 +1,28 @@
+*** Settings ***
+Library           requests
+Resource          C:/Python27/Scripts/APItest/tiaoshi/rf.var.txt
+
+
+
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+list2
+    #模块：楼盘动态    接口：查询楼盘动态
+    ${datacontent}    encode    {"housesId":"821544671346950144","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${platforms}.maifangma.com/housenews/list    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${platforms}.maifangma.com/housenews/list    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

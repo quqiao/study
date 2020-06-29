@@ -1,0 +1,42 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           BuiltIn
+
+*** Test Cases ***
+activity
+    [Setup]
+    Open Application    http://localhost:4723/wd/hub    platformName=Android    platformVersion=5.1.1    deviceName=MYV0215A22002238    app=C:/Python27/Scripts/maifangma/mfmca03_v2.2.0.b49_self_201609011750_release.apk_2.2.0.b49.apk    appPackage=com.chuangjia.maifangma
+    ...    appActivity=com.chuangjia.maifangma.module.launch.widget.SplashActivity
+    Sleep    15    seconds
+    Swipe    startx=600    starty=350    endx=200    endy=350    duration=1000
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close
+
+login
+    Sleep    10    seconds
+    Click A Point    x=600    y=1500
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_icon_my
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/iv_avatar
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/et_username
+    Sleep    10    seconds
+    Clear Text    id=com.chuangjia.maifangma:id/et_username
+    Sleep    10    seconds
+    Input Text    id=com.chuangjia.maifangma:id/et_username    18008062016
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/et_password
+    Sleep    10    seconds
+    Input Text    id=com.chuangjia.maifangma:id/et_password    123456
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_login
+    Sleep    10    seconds
+
+logout
+    [Setup]
+    Click Element    id=com.chuangjia.maifangma:id/iv_avatar
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_logout
+    Close Application

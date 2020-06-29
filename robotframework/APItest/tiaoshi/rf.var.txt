@@ -1,0 +1,5 @@
+*** Variables ***
+${platforms}      http://platforms.ci
+${passport}       http://passport.ci
+${steward}        http://steward.ci
+${manager}        http://manager.ci

@@ -1,0 +1,10 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           BuiltIn
+
+*** Test Cases ***
+activity
+    [Setup]
+    Open Application    http://localhost:4723/wd/hub    platformName=Android    platformVersion=5.1.1    deviceName=4a371c96    appPackage=com.tencent.news    appActivity=com.tencent.news.activity.SplashActivity
+    Sleep    15    seconds

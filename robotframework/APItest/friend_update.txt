@@ -1,0 +1,42 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           BuiltIn
+Library           Collections
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+
+*** Test Cases ***
+step1
+    ${dict}    Create Dictionary    Content-Type=application/x-www-form-urlencoded
+    Create Session    api    https://leancloud.cn/1.1/login    ${dict}
+    ${data}    Create Dictionary    username=quqiao@gmail.com    password=123456
+    ${addr}    Post Request    api    post    data=${data}
+    Comment    Should Be Equal As Strings    ${addr.status_code}    404
+    Log    ${addr.content}
+    Log    ${addr.json()}
+    ${responsedata}    To Json    ${addr.content}
+    ${keys}    Get Dictionary Keys    ${responsedata}
+    ${items}    Get Dictionary Items    ${responsedata}
+    ${values}    Get Dictionary Values    ${responsedata}
+    ${str}    Get From Dictionary    ${responsedata}    Post Requset
+    Delete All Sessions
+
+login
+    #import library    C:/Anaconda2/Scripts/rf-base64.py
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":"1"}
+    #${datacontent}    Evaluate    base64.encode    base64
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}    Get From Dictionary    ${responsedata}    code
+    ${data}    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

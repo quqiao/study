@@ -1,0 +1,244 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+login
+    #例子
+    ${datacontent}    encode    {"account":"17713543052", "password":"123456","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listuserhkservice
+    #【V4.0】读取用户预约房管家服务号次数
+    ${datacontent}    encode    {"account":"17713543052", "password":"123456","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${res1}    Get From Dictionary    ${dedata1}    ticketId
+    Log    ${res1.content}
+    ${dict}    create dictionary    Content-Type=application/xml
+    Create Session    api    http://platforms.maifangma.com/steward/listuserhkservice    ${dict}
+    ${addr}    requests.Post    http://platforms.maifangma.com/steward/listuserhkservice    ${test}
+    log    打印
+    log    ${addr}
+    Should Be Equal    "${addr.status_code}"    "0"
+    Log    ${addr.content}
+    #${responsedata}    To Json    ${addr.content}
+    #${keys}    Get Dictionary Keys    ${responsedata}
+    #${items}    Get Dictionary Keys    ${responsedata}
+    #${values}    Get Dictionary Keys    ${responsedata}
+    #${str}    Get From Dictionary    ${responsedata}
+
+listattachs
+    #模块：买房吗APP    接口：获取楼盘大图
+    ${datacontent}    encode    {"housesId":"756379910410338304"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/houses/listattachs    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/houses/listattachs    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    #${gbkcn}    Evaluate    '${dedata}'.decode('gbk')
+    #log    ${gbkcn}
+
+333
+    #import library    C:/Anaconda2/Scripts/rf-base64.py
+    log    base64加密
+    ${datacontent}    encode    {"account":"18628020167", "password":"123456","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.platforms.maifangma.com/houses/listfavos/v3_3_7
+    log    base64加密
+    ${datacontent}    encode    {"ticketId":"${tt}"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getstatistics
+    #模块：统计信息（APP） 接口：【v3.3.5】用户统计接口
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.platforms.maifangma.com/home/getstatistics    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    http://test.platforms.maifangma.com/home/getstatistics    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+verifyuser
+    #模块：买房吗APP    接口：【4.0】判断用户是否可以预约房管家
+    #import library    C:/Anaconda2/Scripts/rf-base64.py
+    log    base64加密
+    ${datacontent}    encode    {"account":"18628020167", "password":"123456","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.platforms.maifangma.com/steward/verifyuser
+    log    base64加密
+    ${datacontent}    encode    {"id":"838988174427422720","ticketId":"${tt}"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+modifyjobresume
+    log    base64加密
+    ${datacontent}    encode    {"account":"13608064103", "password":"123456","type":"3"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.steward.maifangma.com/hk/center/modifyjobresume
+    log    base64加密
+    #${yyyy}    ${mm}    ${dd}=    Get Time    year,month,day
+    #${now}    string_toTimestamp    ${yyyy}-${mm}-${dd}
+    ${datacontent}    encode    {"ticketId":"${tt}","houseId":"821544671346950144","cardPositive":"http://test.img3.maifangma.com/6532393432626636/810669156520165376/20161219/4f3X6Z6Z376Z6Z6Z6Z371x3X1x376Z3X.jpg","cardReverse":"http://test.img3.maifangma.com/6532393432626636/810669156520165376/20161219/5f673X674m313i3X3Z6x6x6x673Z3X67.jpg","city":"51010000","type":"2"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

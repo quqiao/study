@@ -1,0 +1,64 @@
+*** Settings ***
+Library           requests
+Resource          C:/Python27/Scripts/APItest/tiaoshi/rf.var.txt
+
+
+
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+getdetial
+    #模块：【v3.2】 首页 市场行情 接口：【v3.3.5】区域下的价格走势及热销楼盘
+    ${datacontent}    encode    {"regionId":"51010400"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${platforms}.maifangma.com/market/getdetial    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${platforms}.maifangma.com/market/getdetial    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listdate
+    #模块：【v3.2】 首页 市场行情 接口：【3.2】市场行情-均价涨跌情况
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${platforms}.maifangma.com/market/listdate    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    ${platforms}.maifangma.com/market/listdate    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getprevious
+    #模块：【v3.2】 首页 市场行情    接口：【v3.2】 上月市场行情
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${platforms}.maifangma.com/market/getprevious    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    ${platforms}.maifangma.com/market/getprevious    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    #${code}=    Get From Dictionary    ${responsedata}    code
+    #${data}=    Get From Dictionary    ${responsedata}    data
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

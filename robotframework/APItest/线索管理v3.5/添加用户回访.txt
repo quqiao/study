@@ -1,0 +1,70 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+insertvisit
+    #模块：线索管理    接口：添加用户回访
+    log    ******登录*******
+    log    *****************
+    log    *****************
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    log    ******执行添加用户回访*******
+    log    ********************************
+    log    ********************************
+    ${url}    set Variable    http://test.manager.maifangma.com/customerpt/insertvisit
+    #${title}    Evaluate    "新城吾悦广场"
+    #log    ${title}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","id":"","visitStatus":"":"age":"","sex":"","regionId":"","boardId":"","houseId":"","order":"","orderUserName":""}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    #log    获取响应信息中的data
+    #${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    #log    base64解码data
+    #${dedata}    decode    ${data}
+    #log    打印返回的data
+    #log    ${dedata}

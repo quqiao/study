@@ -1,0 +1,13 @@
+Scrapy: 网页爬虫
+Pandas:数据浏览与预处理
+numpy:数组运算
+scipy:高效的科学计算
+matplotlib:非常方便的数据可视化工具
+scikit-learn:远近闻名的机器学习package。接口封装得好，几乎所有的机器学习算法输入输出部分格式都一致，它的支持文档甚至可以直接当做教程
+来学习
+libsvm:高效率的svm模型实现
+keras/TensorFlow：深度学习，方便搭建自己的神经网络
+nltk:自然语言处理的相关功能，有典型语料库，上手非常容易
+
+
+

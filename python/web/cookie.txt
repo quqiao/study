@@ -1,0 +1,7 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+www.testin.cn	FALSE	/	FALSE		PHPSESSID	08fjanqkaecmoi51aqi2bnrjb7
+www.testin.cn	FALSE	/	FALSE		SERVERID	fb317f682e2abc6a171df11a727a9deb|1465376409|1465376409
+www.testin.cn	FALSE	/	FALSE		_csrf	g-l9mEx0K_m4zS3PwI2kVC81VpWf3LSV

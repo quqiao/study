@@ -1,0 +1,78 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+delinfos
+    #模块：房管家APP    接口：清理消息
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://steward.maifangma.com/center/delinfos    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    http://steward.maifangma.com/center/delinfos    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+listkeyward
+    #模块：房管家APP    接口：楼盘关键字搜索
+    ${datacontent}    encode    {"keyword":"xinhe","curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://platforms.maifangma.com/housenews/list    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://platforms.maifangma.com/housenews/list    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+infolist
+    #模块：房管家APP    接口：消息列表
+    ${datacontent}    encode    {"curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.steward.maifangma.com/center/infolist    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.steward.maifangma.com/center/infolist    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+reply
+    #模块：房管家APP    接口：房管家申请回复
+    ${datacontent}    encode    {"curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.steward.maifangma.com/center/infolist    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.steward.maifangma.com/center/infolist    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

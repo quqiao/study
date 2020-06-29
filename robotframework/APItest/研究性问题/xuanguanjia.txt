@@ -1,0 +1,260 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           BuiltIn
+
+*** Test Cases ***
+activity
+    [Setup]
+    Open Application    http://localhost:4723/wd/hub    platformName=Android    platformVersion=5.1.1    deviceName=4a371c96    app=C:/Python27/Scripts/maifangma/mfmca03_v3.3.5.b103_self_201701171900_release.apk_3.3.5.b103.apk    appPackage=com.chuangjia.maifangma
+    ...    appActivity=com.chuangjia.maifangma.module.launch.widget.SplashActivity    unicodeKeyboard=True    resetKeyboard=True
+    Sleep    15    seconds
+
+case1
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/img_del    #关闭弹出提示
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击选管家
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_search    #点击搜索框
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/searchInput    text=绿地    #输入搜索楼盘
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_name    #选择楼盘
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/order_now    #点击预约他
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_confirm    #选择现在就去注册
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/et_username    text=17713543052    #输入账号
+    Sleep    5    seconds
+    Input Password    id=com.chuangjia.maifangma:id/et_password    text=123456    #输入密码
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_login    #点击登录
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/order_now    #点击预约他
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈    #输入预约名称
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application    #重启app
+
+case2
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击选管家
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_search    #点击搜索框
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/searchInput    text=绿地
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_name    #选择楼盘
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_container    #进入管家详情
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击预约看房
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_confirm    #选择现在就去注册
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/et_username    text=17713543052    #输入账号
+    Sleep    5    seconds
+    Input Password    id=com.chuangjia.maifangma:id/et_password    text=123456    #输入密码
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_login    #点击登录
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈    #输入预约名称
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application
+
+case3
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击选管家
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_search    #点击搜索框
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/searchInput    #点击搜索框弹出历史记录
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_name    #选择楼盘
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_container    #进入管家详情
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击预约管家
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈    #输入预约名称
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application
+
+case4
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击选管家
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_search    #点击搜索框
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/searchInput    #点击搜索框弹出历史记录
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_name    #选择楼盘
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/order_now    #点击预约他
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击预约看房
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_confirm    #选择现在就去注册
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/et_username    text=17713543052    #输入账号
+    Sleep    5    seconds
+    Input Password    id=com.chuangjia.maifangma:id/et_password    text=123456    #输入密码
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_login    #点击登录
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/order_now    #点击预约他
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application
+
+case5
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击管家
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/order_now    #点击预约他
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈    #输入预约名称
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application
+
+case6
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击找管家
+    Sleep    5    seconds
+    Swipe    start_x=500    start_y=1100    end_x=500    end_y=900    duration=1000    #向下滑动
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/order_now    #点击预约他
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_right
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/img_icon
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_submit
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application
+
+case7
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_container
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application
+
+case8
+    Sleep    5    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第一次滑动
+    Sleep    10    seconds
+    Swipe    start_x=1000    start_y=1000    end_x=100    end_y=1000    duration=1000    #第二次滑动
+    Sleep    10    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_close    #立即体验按钮
+    Sleep    15    seconds
+    Click Element    id=com.chuangjia.maifangma:id/navi_tab_choose_housekeeper    #点击找管家
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/tv_right
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_container
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    哈哈
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/txt_order_date    #点击日期
+    Sleep    5    seconds
+    Click Element    id=android:id/text1    #选择日期
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom    #点击提交
+    Sleep    5    seconds
+    Reset Application

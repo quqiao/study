@@ -1,0 +1,19 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           BuiltIn
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+
+*** Test Cases ***
+activity
+    Open Application    http://localhost:4723/wd/hub    platformName=Android    platformVersion=5.1.1    deviceName=4a371c96    appPackage=com.funi.cloudcode    appActivity=.activity.LoadingActivity
+    ...    unicodeKeyboard=True    resetKeyboard=True
+    Sleep    5    seconds
+
+pull
+    ${pull}    Pull File    /storage/emulated/legacy/test/1-1-4502.txt    #decode=True
+    log    ${pull}
+    ${pull1}    encode    ${pull}
+    log    ${pull1}

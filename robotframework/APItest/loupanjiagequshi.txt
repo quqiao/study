@@ -1,0 +1,24 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+list1
+    #模块：【v3.3.5】价格趋势 接口：查询价格趋势列表
+    ${datacontent}    encode    {"housesId":"821544671346950144"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://platforms.maifangma.com/trends/list    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=3    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://platforms.maifangma.com/trends/list    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}

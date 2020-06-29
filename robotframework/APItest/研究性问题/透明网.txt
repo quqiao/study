@@ -1,0 +1,82 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           BuiltIn
+Library           requests
+Library           RequestsLibrary
+Library           ../setCode.py
+
+*** Test Cases ***
+activity
+    Open Application    http://localhost:4723/wd/hub    platformName=Android    platformVersion=5.1.1    deviceName=4a371c96    appPackage=com.funi.cloudcode    appActivity=.activity.LoadingActivity
+    ...    unicodeKeyboard=True    resetKeyboard=True
+    Sleep    10    seconds
+
+toumingwang
+    Click Element    id=com.funi.cloudcode:id/new_house_search_title_edit    #点击搜索框
+    Sleep    1    seconds
+    Input Text    id=com.funi.cloudcode:id/search_edit    恒大锦城    #输入楼盘
+    Sleep    2    seconds
+    Click Element    xpath=//android.widget.ListView[contains(@index,0)]/android.widget.LinearLayout[contains(@index,1)]    #点击楼盘
+    Sleep    2    seconds
+    Click Element    xpath=//android.widget.ListView[contains(@index,0)]/android.widget.LinearLayout[contains(@index,1)]    #点击楼盘
+    Sleep    2    seconds
+    Swipe    start_x=500    start_y=1725    end_x=500    end_y=600    duration=1000    #向下滑动
+    Sleep    2    seconds
+    Click Element    id=com.funi.cloudcode:id/house_detail_price_more_button    #点击查看全部
+    Sleep    2    seconds
+    Click Element    xpath=//android.widget.ListView[contains(@index,0)]/android.widget.LinearLayout[contains(@index,0)]    #点击栋
+    Sleep    2    seconds
+    Click Element    id=com.funi.cloudcode:id/tv_floor    #点击一个房号
+    Sleep    2    seconds
+    #Click A Point    x=50    y=1650    #任意点击一下，提示消失
+    #Sleep    2    seconds
+    #${copy1}    Get Element Attribute    xpath=//android.widget.LinearLayout[contains(@index,0)]/android.widget.TextView[contains(@index,0)]    text    #获取手机中的值
+    #log    ${copy}
+    #Sleep    2    seconds
+    #Push File    /storage/emulated/legacy/test/log2.txt    ${copy1}    encode=False    #写入手机该路径中
+    #Sleep    2    seconds
+    ${copy1}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_area_text    text    #获取平方米
+    log    ${copy1}
+    ${copy2}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_use_text    text    #获取住宅
+    log    ${copy2}
+    ${copy3}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_state_text    text    #获取可售
+    log    ${copy3}
+    ${copy4}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_total_text    text    #总价
+    log    ${copy4}
+    ${copy5}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_zx_price    text    #装修
+    log    ${copy5}
+    ${copy6}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_structure_text    text    #户型结构
+    log    ${copy6}
+    #${copy11}    decode    ${copy1}    UTF-8
+    #${copy11}    Convert To Bytes    ${copy1}
+    #log    ${copy11}
+    #${copy}    Set Variable    中文
+    #${utf-8}    Evaluate    '${copy1}'.decode('utf-8')
+    #log    ${utf-8}
+    #${test1}    Set Variable    wwwww
+    #${test2}    Set Variable    qqqqqqq
+    #${test3}    Set Variable    ssssssssss
+    Push File    /storage/emulated/legacy/test/1-1-4502.txt    建筑面积:${copy1}\n房屋用途:${copy2}\n销售状态:${copy3}\n挂牌清水价:${copy4}\n挂牌装修价:${copy5}\n户型结构:${copy6}    encode=false    #写入手机该路径中
+    Sleep    2    seconds
+    #${copy2}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_use_text    text    #获取住宅
+    #log    ${copy2}
+    #Push File    /storage/emulated/legacy/test/log.txt    {copy2}    encode=True    #写入手机该路径中
+    #Sleep    2    seconds
+    #${copy3}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_state_text    text    #获取可售
+    #log    ${copy3}
+    #Push File    /storage/emulated/legacy/test/log.txt    ${copy3}    encode=True    #写入手机该路径中
+    #Sleep    2    seconds
+    #${copy4}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_total_text    #总价
+    #log    ${copy4}
+    Scroll To
+    #Push File    /storage/emulated/legacy/test/log.txt    ${copy4}    encode=True    #写入手机该路径中
+    #Sleep    2    seconds
+    #${copy5}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_zx_price    #装修
+    #log    ${copy5}
+    #Push File    /storage/emulated/legacy/test/log.txt    ${copy5}    encode=True    #写入手机该路径中
+    #Sleep    2    seconds
+    #${copy6}    Get Element Attribute    id=com.funi.cloudcode:id/house_detail_one_price_detail_dialog_structure_text    #户型结构
+    #log    ${copy6}
+    #Push File    /storage/emulated/legacy/test/log.txt    ${copy6}    encode=True    #写入手机该路径中
+    #Sleep    2    seconds

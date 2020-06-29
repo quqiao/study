@@ -1,0 +1,3 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Selenium2Library

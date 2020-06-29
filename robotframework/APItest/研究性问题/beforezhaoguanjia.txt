@@ -1,0 +1,26 @@
+*** Settings ***
+Library           AppiumLibrary
+Library           Collections
+Library           BuiltIn
+Library           MyLibrary
+
+*** Test Cases ***
+switch
+    #Sleep    5    seconds
+    #Click Element    id=com.chuangjia.maifangma:id/navi_icon_choose_housekeeper
+    #Get Length    朱六
+    #Sleep    2    seconds
+    #Should Be Equal As Integers    2
+    My Key Word
+
+yuyue
+    Sleep    5    seconds
+    Click Element    id=com.chuangjia.maifangma:id/layout_container
+    Sleep    5    seconds
+    Should Contain    预约看房    PASS
+    Sleep    2    seconds
+    Click Element    id=com.chuangjia.maifangma:id/btn_bottom
+    Sleep    5    seconds
+    Input Text    id=com.chuangjia.maifangma:id/txt_order_user_name    zhaoqi
+    Sleep    2    seconds
+    Click A Point    x=600    y=1500

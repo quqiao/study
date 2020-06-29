@@ -1,0 +1,46 @@
+*** Settings ***
+Library           requests
+Resource          C:/Python27/Scripts/APItest/tiaoshi/rf.var.txt
+
+
+
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+list5
+    #模块：地铁沿线热门楼盘配置(MFM) 接口：查询地铁热门楼盘列表
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${platforms}.maifangma.com/metrohouse/list    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    ${platforms}.maifangma.com/metrohouse/list    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+getbannber
+    #模块：地铁沿线热门楼盘配置(MFM)    接口：获取功能模块的banner
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${platforms}.maifangma.com/metrohouse/getbannber    ${dict}
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    encryMode=2
+    ${res}    requests.Post    ${platforms}.maifangma.com/metrohouse/getbannber    ${data}
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    #${gbkcn}    Evaluate    '${dedata}'.decode('gbk')
+    #log    ${gbkcn}

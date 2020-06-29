@@ -1,0 +1,451 @@
+*** Settings ***
+Library           requests
+Library           RequestsLibrary
+Library           ../../Lib/site-packages/bs4/rf-base64.py
+Library           Collections
+
+*** Test Cases ***
+search
+    #模块：配训管理    接口：搜索培训
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/search
+    log    base64加密
+    ${title}    Evaluate    "rf培训标题1"
+    log    ${title}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","title":"${title}","curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+
+list
+    #模块：配训管理    接口：分页获取培训列表
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata1}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/list
+    log    base64加密
+    #${title}    Evaluate    "rf培训标题1"
+    #log    ${title}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata2}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata2}
+    log    获取响应信息中的list
+    ${dedata3}    To Json    ${dedata2}
+    ${list}=    Get From Dictionary    ${dedata3}    list
+    log    ${list}
+    ${dic}=    Get From List    ${list}    0
+    log    ${dic}
+    ${status}=    Get From Dictionary    ${dic}    status
+    log    ${status}
+
+status
+    #模块：配训管理    接口：修改培训状态
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata1}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/status
+    log    base64加密
+    #${title}    Evaluate    "rf培训标题1"
+    #log    ${title}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","status":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata2}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata2}
+
+update
+    #模块：配训管理    接口：更新培训
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata1}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/list
+    log    base64加密
+    #${title}    Evaluate    "rf培训标题1"
+    #log    ${title}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata2}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata2}
+    log    获取响应信息中的list
+    ${dedata3}    To Json    ${dedata2}
+    ${list}=    Get From Dictionary    ${dedata3}    list
+    log    ${list}
+    ${dic}=    Get From List    ${list}    0
+    log    ${dic}
+    ${title}=    Get From Dictionary    ${dic}    title
+    log    ${title}
+    ${title1}    Evaluate    ${title}
+    log    ${title1}
+    ${title2}    To Json    ${title1}
+    log    ${title2}
+    ${train_url}=    Get From Dictionary    ${dic}    train_url
+    log    ${train_url}
+    log    ******打印更新******
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata1}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/update
+    log    base64加密
+    #${title1}    Evaluate    "回归培训标题"
+    #log    ${title1}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","title":"${title1}","trainUrl":"${train_url}"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata2}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata2}
+
+add
+    #模块：配训管理    接口：新增培训
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata1}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/list
+    log    base64加密
+    #${title}    Evaluate    "rf培训标题1"
+    #log    ${title}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","curPage":1,"pageSize":20}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata2}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata2}
+    log    获取响应信息中的list
+    ${dedata3}    To Json    ${dedata2}
+    ${list}=    Get From Dictionary    ${dedata3}    list
+    log    ${list}
+    ${dic}=    Get From List    ${list}    0
+    log    ${dic}
+    ${title}=    Get From Dictionary    ${dic}    title
+    log    ${title}
+    ${title1}    Evaluate    '${title}'
+    log    ${title1}
+    #${title2}    To Json    ${title1}
+    #log    ${title2}
+    ${train_url}=    Get From Dictionary    ${dic}    train_url
+    log    ${train_url}
+    log    ******打印更新******
+    log    base64加密
+    ${datacontent}    encode    {"account":"admin", "password":"admin+20160909!","type":1}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    http://test.passport.maifangma.com/login    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    http://test.passport.maifangma.com/login    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    base64解码data
+    ${dedata}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata}
+    ${dedata1}    To Json    ${dedata}
+    ${tt}=    Get From Dictionary    ${dedata1}    ticketId
+    log    ${tt}
+    ${url}    set Variable    http://test.manager.maifangma.com/train/add
+    log    base64加密
+    #${title1}    Evaluate    "回归培训标题"
+    #log    ${title1}
+    #${gbk1}    Evaluate    "添加文章1"
+    #log    ${gbk1}
+    ${datacontent}    encode    {"ticketId":"${tt}","title":"${title1}","trainUrl":"${train_url}"}
+    ${dict}    create dictionary    Content-Type=application/xml
+    create Session    api    ${url}    ${dict}
+    log    创建data参数
+    ${data}    create dictionary    version=1.0.0    deviceType=2    cityId=51010000    data=${datacontent}    encryMode=2
+    ${res}    requests.Post    ${url}    ${data}
+    log    打印res.content
+    log    ${res.content}
+    ${responsedata}    To Json    ${res.content}
+    ${tt1}=    Get From Dictionary    ${responsedata}    msg
+    log    ${tt1}
+    #&{utf8cn}    Evaluate    ${responsedata}
+    #log    &{utf8cn}
+    log    获取响应信息中的code
+    ${code}=    Get From Dictionary    ${responsedata}    code
+    log    判断code是否为0
+    Should Be Equal    "${code}"    "0"
+    log    获取响应信息中的data
+    ${data}=    Get From Dictionary    ${responsedata}    data
+    #log    获取相应信息中的show
+    #${show}=    Get From Dictionary    ${responsedata}    show
+    #log    判断show是否为true
+    #Should be Equal    "${show}"    "true"
+    log    base64解码data
+    ${dedata2}    decode    ${data}
+    log    打印返回的data
+    log    ${dedata2}
